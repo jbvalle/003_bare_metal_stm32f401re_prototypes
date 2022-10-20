@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 extern uint32_t __etext;
 extern uint32_t __estack;
 extern uint32_t __sdata;

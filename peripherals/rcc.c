@@ -1,4 +1,5 @@
 #include <stdint.h>
+
 #define __IO volatile
 
 typedef struct RCC_t{
