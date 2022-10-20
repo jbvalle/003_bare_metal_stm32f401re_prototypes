@@ -1,12 +1,5 @@
 #include <stdint.h>
 
-extern uint32_t __etext;
-extern uint32_t __estack;
-extern uint32_t __sdata;
-extern uint32_t __edata;
-extern uint32_t __sbss;
-extern uint32_t __ebss;
-
 void Reset_handler          (void);
 void NMI_handler            (void)__attribute__((weak, alias("Default_handler")));
 void HardFault_handler      (void)__attribute__((weak, alias("Default_handler")));
@@ -74,9 +67,10 @@ void I2C3_ER_handler                      (void)__attribute__((weak, alias("Defa
 void FPU_handler                          (void)__attribute__((weak, alias("Default_handler")));
 void SPI4_handler                         (void)__attribute__((weak, alias("Default_handler")));
 
-__attribute__((section(".isr_vector")))
-void (* const fpn_isr_vector[])(void) = {
-    (void(*)(void))(&__estack),
+/** Initialize Interrupt Vector **/
+__attribute__ ((section(".isr_vector")))
+void (* const fpn_vector[])(void) = {
+    (void (*)(void))(&__estack),
     Reset_handler,
     NMI_handler,
     HardFault_handler,
@@ -111,10 +105,15 @@ void (* const fpn_isr_vector[])(void) = {
     DMA1_Stream5_handler,
     DMA1_Stream6_handler,
     ADC_handler,
+    0,
+    0,
+    0,
+    0,
     EXTI9_5__handler,
     TIM1_BRK_TIM9_handler,
     TIM1_UP_TIM10_handler,
     TIM1_TRG_COM_TIM11_handler,
+    TIM1_CC_handler,
     TIM2_handler,
     TIM3_handler,
     TIM4_handler,
@@ -126,17 +125,34 @@ void (* const fpn_isr_vector[])(void) = {
     SPI2_handler,
     UART1_handler,
     UART2_handler,
+    0,
+    EXTI15_10_handler,
     EXTI17_RTC_Alarm_handler,
     EXTI18_OTG_FS_WKUP_handler,
+    0,
+    0,
+    0,
+    0,
     DMA1_Stream7_handler,
+    0,
     SDIO_handler,
     TIM5_handler,
     SPI3_handler,
+    0,
+    0,
+    0,
+    0,
     DMA2_Stream0_handler,
     DMA2_Stream1_handler,
     DMA2_Stream2_handler,
     DMA2_Stream3_handler,
     DMA2_Stream4_handler,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     OTG_FS_handler,
     DMA2_Stream5_handler,
     DMA2_Stream6_handler,
@@ -144,7 +160,16 @@ void (* const fpn_isr_vector[])(void) = {
     UART6_handler,
     I2C3_EV_handler,
     I2C3_ER_handler,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
     FPU_handler,
+    0,
+    0,
     SPI4_handler
 };
 
